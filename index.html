@@ -13,11 +13,11 @@
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src https://fonts.gstatic.com;
   img-src 'self' data: blob:;
-  connect-src https://formsubmit.co;
+  connect-src https://formsubmit.co https://*.formsubmit.co;
   frame-src 'none';
   object-src 'none';
   base-uri 'self';
-  form-action https://formsubmit.co;
+  form-action https://formsubmit.co https://*.formsubmit.co;
 ">
 <!-- Prevent MIME type sniffing -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -1325,13 +1325,24 @@ async function sendRSVP() {
       })
     });
 
-    if (response.ok) {
+    const data = await response.json().catch(() => null);
+    console.log('FormSubmit response:', response.status, data);
+
+    if (response.ok && data && data.success) {
       document.getElementById('rsvpForm').style.display = 'none';
       document.getElementById('rsvpSuccess').style.display = 'block';
+    } else if (data && data.message) {
+      // FormSubmit returns a message — could be "please verify your email"
+      errorEl.textContent = data.message;
+      errorEl.style.display = 'block';
+      btn.textContent = originalText;
+      btn.disabled = false;
+      btn.style.opacity = '1';
     } else {
-      throw new Error('Server error');
+      throw new Error('Unexpected response: ' + response.status);
     }
   } catch (err) {
+    console.error('RSVP error:', err);
     errorEl.textContent = currentLang === 'es' 
       ? 'Error al enviar. Por favor, inténtalo de nuevo.' 
       : 'Failed to send. Please try again.';
