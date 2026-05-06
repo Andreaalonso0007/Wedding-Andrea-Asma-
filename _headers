@@ -1,0 +1,18 @@
+/*
+  # Prevent clickjacking
+  X-Frame-Options: DENY
+  # Block MIME type sniffing
+  X-Content-Type-Options: nosniff
+  # XSS Protection (legacy)
+  X-XSS-Protection: 1; mode=block
+  # Referrer Policy
+  Referrer-Policy: no-referrer
+  # Permissions Policy - disable unnecessary browser APIs
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src https://formsubmit.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action https://formsubmit.co;
+  # Strict Transport Security (HTTPS only)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # Prevent browser from caching sensitive data
+  Cache-Control: no-store, no-cache, must-revalidate, private
+  Pragma: no-cache
