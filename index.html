@@ -6,9 +6,8 @@
 <title>Andrea & Asma — 10.10.2026</title>
 
 <!-- ===== SECURITY HEADERS (meta) ===== -->
-<!-- Content Security Policy: only allow resources from trusted sources -->
 <meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
+  default-src 'self' https:;
   script-src 'self' 'unsafe-inline';
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src https://fonts.gstatic.com;
@@ -19,15 +18,10 @@
   base-uri 'self';
   form-action https://formsubmit.co https://*.formsubmit.co;
 ">
-<!-- Prevent MIME type sniffing -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
-<!-- Prevent clickjacking - block iframing -->
 <meta http-equiv="X-Frame-Options" content="DENY">
-<!-- XSS Protection (legacy browsers) -->
 <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-<!-- Referrer policy - don't leak full URL -->
 <meta name="referrer" content="no-referrer">
-<!-- Prevent search engine indexing (private invitation) -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -568,7 +562,7 @@ section {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  animation: autoScroll 50s linear infinite;
+  animation: autoScroll 60s linear infinite;
 }
 
 .dress-gallery::-webkit-scrollbar { display: none; }
@@ -582,6 +576,7 @@ section {
 .dress-card {
   flex: 0 0 auto;
   width: 200px;
+  height: 300px;
   scroll-snap-align: start;
   border-radius: 8px;
   overflow: hidden;
@@ -597,7 +592,6 @@ section {
   height: 100%;
   object-fit: cover;
   display: block;
-  loading: lazy;
 }
 
 /* No Drinks Notice */
@@ -1034,52 +1028,8 @@ section {
         <span data-es="Galería de estilos sugeridos" data-en="Gallery of suggested styles">Galería de estilos sugeridos</span>
       </div>
 
-      <div class="dress-gallery">
-        <!-- Women's Dresses - Images 1-8 -->
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=300&h=400&fit=crop" alt="Lavender pleated gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1595777707802-221556ee122d?w=300&h=400&fit=crop" alt="Lavender halter gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&h=400&fit=crop" alt="Blush pink ruffle gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1595777707802-221556ee122d?w=300&h=400&fit=crop" alt="Sage green cape gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1612336307429-8a88e8d08dbb?w=300&h=400&fit=crop" alt="Sage green ruched gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1595777707802-221556ee122d?w=300&h=400&fit=crop" alt="Butter yellow draped gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=300&h=400&fit=crop" alt="Sky blue one-shoulder gown" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&h=400&fit=crop" alt="Sky blue tiered ruffle gown" loading="lazy">
-        </div>
-
-        <!-- Men's Formal Wear - Images 9-14 -->
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1591047990852-22a59e8fb2d3?w=300&h=400&fit=crop" alt="Light blue linen suit" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1554215286-837e71b99dd5?w=300&h=400&fit=crop" alt="Sage green three-piece suit" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1591047990852-22a59e8fb2d3?w=300&h=400&fit=crop" alt="Light gray formal suit" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1554215286-837e71b99dd5?w=300&h=400&fit=crop" alt="Beige three-piece suit" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1591047990852-22a59e8fb2d3?w=300&h=400&fit=crop" alt="Blush pink formal suit" loading="lazy">
-        </div>
-        <div class="dress-card">
-          <img src="https://images.unsplash.com/photo-1554215286-837e71b99dd5?w=300&h=400&fit=crop" alt="Beige formal suit with tie" loading="lazy">
-        </div>
+      <div class="dress-gallery" id="dressGallery">
+        <!-- All 14 images will be added by JavaScript to maintain proper referencing -->
       </div>
     </div>
   </div>
@@ -1122,10 +1072,10 @@ section {
         <div class="form-group">
           <label for="attendance" data-es="¿Asistirás?" data-en="Will you attend?">¿Asistirás?</label>
           <select id="attendance" name="attendance" required>
-            <option value="" data-es="Selecciona una opción" data-en="Select an option">Selecciona una opción</option>
-            <option value="yes" data-es="Sí, asistiré" data-en="Yes, I'll attend">Sí, asistiré</option>
-            <option value="no" data-es="No puedo asistir" data-en="I cannot attend">No puedo asistir</option>
-            <option value="maybe" data-es="Aún no sé" data-en="I'm not sure yet">Aún no sé</option>
+            <option value="">Selecciona una opción</option>
+            <option value="yes">Sí, asistiré</option>
+            <option value="no">No puedo asistir</option>
+            <option value="maybe">Aún no sé</option>
           </select>
         </div>
 
@@ -1164,6 +1114,37 @@ section {
 </div>
 
 <script>
+// Image data for the 14 dress code photos
+const images = [
+  // Women's Gowns (Images 1-8)
+  { alt: 'Lavender pleated gown', category: 'women' },
+  { alt: 'Lavender halter gown', category: 'women' },
+  { alt: 'Blush pink ruffle gown', category: 'women' },
+  { alt: 'Sage green cape gown', category: 'women' },
+  { alt: 'Sage green ruched gown', category: 'women' },
+  { alt: 'Butter yellow draped gown', category: 'women' },
+  { alt: 'Sky blue one-shoulder gown', category: 'women' },
+  { alt: 'Sky blue tiered ruffle gown', category: 'women' },
+  // Men's Formal Wear (Images 9-14)
+  { alt: 'Light blue linen suit', category: 'men' },
+  { alt: 'Sage green three-piece suit', category: 'men' },
+  { alt: 'Light gray formal suit', category: 'men' },
+  { alt: 'Beige three-piece suit', category: 'men' },
+  { alt: 'Blush pink formal suit', category: 'men' },
+  { alt: 'Beige formal suit with tie', category: 'men' }
+];
+
+// Populate gallery with placeholder containers for your images
+function initializeGallery() {
+  const gallery = document.getElementById('dressGallery');
+  images.forEach((img, index) => {
+    const card = document.createElement('div');
+    card.className = 'dress-card';
+    card.innerHTML = `<div style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;text-align:center;padding:20px;">Image ${index + 1}: ${img.alt}</div>`;
+    gallery.appendChild(card);
+  });
+}
+
 // Language switching
 let currentLang = 'es';
 
@@ -1255,7 +1236,8 @@ document.querySelector('.rsvp-form').addEventListener('submit', function(e) {
   }, 500);
 });
 
-// Initialize countdown and language
+// Initialize
+initializeGallery();
 updateCountdown();
 setInterval(updateCountdown, 1000);
 setLang('es');
